@@ -40,7 +40,7 @@ export default function useHook() {
     }
   };
 
-  const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY
+  const apiKey = 'AIzaSyAzaD5jXgI9v1-H_iWjY5o4oteSU1dC4OY'
 
   const [focus, setFocus] = useState({
     dep: false,
