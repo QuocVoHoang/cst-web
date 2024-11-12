@@ -1,4 +1,4 @@
-interface IRealLocation {
+export interface IRealLocation {
   "location": string,
   "latitude": number,
   "longitude": number,

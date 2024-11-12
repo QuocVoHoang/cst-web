@@ -1,3 +1,5 @@
+import { IRealLocation } from "@/interface";
+
 export const RealLocations = <IRealLocation[]>[
   {
     "location": "Sân bay Tân Sơn Nhất",

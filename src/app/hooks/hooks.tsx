@@ -1,9 +1,10 @@
 'use client'
 
 import { List, ListItem, ListItemButton, ListItemText } from '@mui/material';
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { RealLocations } from '@/constant/constants';
 import axios from 'axios';
+import { IRealLocation } from '@/interface';
 
 export default function useHook() {
   const [isLoading, setIsLoading] = useState<boolean>(false)
@@ -94,7 +95,7 @@ export default function useHook() {
   const [departureText, setDepartureText] = useState<string>('')
   const [departureSuggestions, setDepartureSuggestions] = useState<IRealLocation[]>([]);
 
-  const handleDepartureChange = (e:any) => {
+  const handleDepartureChange = (e:React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setDepartureText(value);
 
@@ -116,7 +117,7 @@ export default function useHook() {
   const [destinationText, setDestinationText] = useState<string>('')
   const [destinationSuggestions, setDestinationSuggestions] = useState<IRealLocation[]>([]);
   
-  const handleDestinationChange = (e:any) => {
+  const handleDestinationChange = (e:React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setDestinationText(value);
 
@@ -140,7 +141,7 @@ export default function useHook() {
     handleChooseSuggestion
   }: {
     suggestions: IRealLocation[], 
-    handleChooseSuggestion: (location: any) => void
+    handleChooseSuggestion: (location: IRealLocation) => void
   }) => {
     return(
       suggestions.map((suggestion) => (
@@ -157,8 +158,12 @@ export default function useHook() {
 
   ///////////////////////////////////////////////////////////////////////////////
   useEffect(() => {
-    departureText == '' ? setDepartureSuggestions([]) : null
-    destinationText == '' ? setDestinationSuggestions([]) : null
+    if(departureText == '') {
+      setDepartureSuggestions([])
+    }
+    if(destinationText == '') {
+      setDestinationSuggestions([])
+    }
   }, [departureText, destinationText])
   return {
     departureText,
