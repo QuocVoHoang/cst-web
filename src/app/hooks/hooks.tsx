@@ -25,7 +25,7 @@ export default function useHook() {
       setDeparture(RealLocations.find(location => location.location == departureText))
       setDestination(RealLocations.find(location => location.location == destinationText))
       
-      const response = await axios.post('https://cst-server.onrender.com/', {
+      const response = await axios.post('https://cst-server.vercel.app/', {
         start_location_name: startLocationName,
         end_location_name: endLocationName,
         vehicle: vehicle
