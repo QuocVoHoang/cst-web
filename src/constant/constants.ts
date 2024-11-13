@@ -296,11 +296,11 @@ export const RealLocations = <IRealLocation[]>[
     "node_id": "3168120093"
   },
   {
-    "location": "Nhà Thi Đấu Phú Thọ",
-    "latitude": 10.766527,
-    "longitude": 106.6540989,
+    "location": "Công an thành phố HCM",
+    "latitude": 10.7590153,
+    "longitude": 106.6873456,
     "key": 42,
-    "node_id": "4535195806"
+    "node_id": "4613083209"
   },
   {
     "location": "Trường THPT Nguyễn Trung Trực",
@@ -968,11 +968,11 @@ export const RealLocations = <IRealLocation[]>[
     "node_id": "4944096827"
   },
   {
-    "location": "Đường Hoàng Thế Thiện",
-    "latitude": 10.7726656,
-    "longitude": 106.7243293,
+    "location": "Nhà trọ Bố Già",
+    "latitude": 10.8743392,
+    "longitude": 106.8001649,
     "key": 138,
-    "node_id": "4944096831"
+    "node_id": "3342113686"
   },
   {
     "location": "Đường Út Tịch",
@@ -1059,18 +1059,18 @@ export const RealLocations = <IRealLocation[]>[
     "node_id": "4068017784"
   },
   {
-    "location": "Đường Thạnh Mỹ Lợi",
+    "location": "Đường Mỹ Lợi",
     "latitude": 10.7798773,
     "longitude": 106.7616212,
     "key": 151,
     "node_id": "1835411287"
   },
   {
-    "location": "Etown Cộng Hoà",
-    "latitude": 10.8024834,
-    "longitude": 106.6399675,
+    "location": "Hầm chui Phan Thúc Duyện",
+    "latitude": 10.8026411,
+    "longitude": 106.6635788,
     "key": 152,
-    "node_id": "2081355030"
+    "node_id": "366437635"
   },
   {
     "location": "Đường Huỳnh Tấn Phát",
