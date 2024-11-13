@@ -1,7 +1,7 @@
 'use client'
 
 import { Box, Button, CircularProgress, TextField } from '@mui/material';
-import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
+import { GoogleMap, LoadScript, Marker, Polyline } from '@react-google-maps/api';
 import React from 'react';
 import TwoWheelerIcon from '@mui/icons-material/TwoWheeler';
 import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
@@ -102,17 +102,18 @@ export default function HomePage() {
             </Box>
           </Box>
 
-          <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'center',  mt: '20px', fontSize: '20px', fontWeight: 'bold'}}>
+          <Box sx={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',  mt: '20px', fontSize: '20px', fontWeight: 'bold'}}>
             <Box sx={{display: 'flex', flexDirection: 'column'}}>
               <Box sx={{display: 'flex', alignItems: 'center'}}>
                 Max Flow: 
-                <Box sx={{border: '1px solid #333333', borderRadius: '8px', width: "100px", height: "40px", ml: '10px', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-                  {isLoading ? <CircularProgress style={{width: "20px", height: "20px"}}/> : maxFlow}
+                <Box sx={{border: '1px solid #333333', borderRadius: '8px', width: "100px", height: "40px", mx: '10px', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                  {isLoading ? <CircularProgress style={{width: "20px", height: "20px"}}/> : maxFlow} 
                 </Box>
+                {isCar ? 'cars' : 'motorbikes'}
               </Box>
             </Box>
             <Button 
-              sx={{width: '100px', height: "40px", backgroundColor: '#FF6A3D', color: 'white', ml: '20px'}}
+              sx={{width: '100px', height: "40px", backgroundColor: '#FF6A3D', color: 'white', mt: '20px'}}
               onClick={() => onCalculateMaxFlow(departureText, destinationText, isCar ? 'car' : 'bike')}
             >
               Calculate
@@ -152,6 +153,7 @@ export default function HomePage() {
               {markers.map((marker) => (
                 isShowingMarker ? <Marker key={marker.id} position={marker.position} /> : null             
               ))}
+              {isShowingMarker ? <Polyline path={[markers[0].position, markers[1].position]} options={{ strokeColor: '#FF0000', strokeWeight: 2 }} /> : null}
             </GoogleMap>
           </LoadScript>
         </Box>

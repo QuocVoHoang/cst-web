@@ -16,6 +16,8 @@ export default function useHook() {
 
   const onChooseCar = (value: boolean) => {
     setIsCar(value)
+    setIsShowingMarker(false)
+    setMaxFlow(0)
   }
   const onCalculateMaxFlow = async (startLocationName: string, endLocationName: string, vehicle: string) => {
     try {
