@@ -109,7 +109,7 @@ export default function HomePage() {
                 <Box sx={{border: '1px solid #333333', borderRadius: '8px', width: "100px", height: "40px", mx: '10px', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
                   {isLoading ? <CircularProgress style={{width: "20px", height: "20px"}}/> : maxFlow} 
                 </Box>
-                {isCar ? 'cars' : 'motorbikes'}
+                {isCar ? 'cars/h' : 'motorbikes/h'}
               </Box>
             </Box>
             <Button 
