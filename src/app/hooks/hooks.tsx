@@ -6,13 +6,74 @@ import { RealLocations } from '@/constant/constants';
 import axios from 'axios';
 import { IRealLocation } from '@/interface';
 
+interface ILocation {
+  lat: number;
+  lng: number;
+}
+interface IPathMarker {
+  id: number;
+  position: ILocation
+}
+
+interface IPath {
+  id: number;
+  midPoint: ILocation;
+  flow: number;
+  path: ILocation[]
+}
+
 export default function useHook() {
+  const apiKey = 'AIzaSyAzaD5jXgI9v1-H_iWjY5o4oteSU1dC4OY'
+
+  const [focus, setFocus] = useState({
+    dep: false,
+    des: false,
+  })
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [maxFlow, setMaxFlow] = useState<number>(0)
   const [departure, setDeparture] = useState<IRealLocation>()
   const [destination, setDestination] = useState<IRealLocation | null>()
   const [isCar, setIsCar] = useState<boolean>(false)
   const [isShowingMarker, setIsShowingMarker] = useState<boolean>(false)
+  const [markers, setMarkers] = useState<IPathMarker[]>([
+    { id: 99, position: { lat: 10.800986087081395, lng: 106.61412186202405 } },
+    { id: 100, position: { lat: 10.80755318846548, lng: 106.62161128241713 }},
+  ])
+  const [allPaths, setAllPaths] = useState<number[][]>([])
+  const [paths, setPaths] = useState<IPath[]>([])
+
+  useEffect(() => {
+    if(allPaths.length > 0) {
+      for(let i=0; i<20; i++) {
+        const depa = RealLocations.find(location => location.key == allPaths[i][0])
+        const dest = RealLocations.find(location => location.key == allPaths[i][1])
+  
+        if(depa && dest) {
+          const newPath = {
+            id: Math.random(),
+            path: [
+              {lat: depa.latitude, lng: depa.longitude},
+              {lat: dest.latitude, lng: dest.longitude},
+            ],
+            midPoint: {
+              lat: (depa.latitude + dest.latitude) / 2,
+              lng: (depa.longitude + dest.longitude) / 2,
+            },
+            flow: allPaths[i][2]
+          }
+  
+          setPaths(prev => [...prev, newPath])
+        } 
+      }
+    }
+
+
+  }, [allPaths])
+
+  useEffect(() => {
+    console.log(paths)
+  }, [paths])
+
 
   const onChooseCar = (value: boolean) => {
     setIsCar(value)
@@ -28,13 +89,14 @@ export default function useHook() {
       setDestination(RealLocations.find(location => location.location == destinationText))
       
       const response = await axios.post('https://cst-server.vercel.app/', {
+      // const response = await axios.post('http://localhost:8000/', {
         start_location_name: startLocationName,
         end_location_name: endLocationName,
         vehicle: vehicle
       });
       const responseData = response.data
       setMaxFlow(responseData.maxFlow)
-      console.log('responseData', responseData.maxFlow)
+      setAllPaths(responseData.allPaths)
     } catch (error) {
       console.error('Error sending string:', error);
     } finally {
@@ -42,12 +104,6 @@ export default function useHook() {
     }
   };
 
-  const apiKey = 'AIzaSyAzaD5jXgI9v1-H_iWjY5o4oteSU1dC4OY'
-
-  const [focus, setFocus] = useState({
-    dep: false,
-    des: false
-  })
   const handleFocus = (dep: boolean, des: boolean) => {
     setFocus({dep, des})
   }
@@ -61,12 +117,6 @@ export default function useHook() {
       .replace(/[^a-zA-Z0-9 ]/g, "");
   };
   //////////////////////////////////////////////////////
-
-  const [markers, setMarkers] = useState([
-    { id: 1, position: { lat: 10.800986087081395, lng: 106.61412186202405 } },
-    { id: 2, position: { lat: 10.80755318846548, lng: 106.62161128241713 }},
-  ])
-
   useEffect(() => {
     if(departure && destination){
       setMarkers([
@@ -179,6 +229,7 @@ export default function useHook() {
     markers,
     isCar,
     isShowingMarker,
+    paths,
 
     onLoad,
     onChooseCar,

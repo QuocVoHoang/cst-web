@@ -1,7 +1,7 @@
 'use client'
 
 import { Box, Button, CircularProgress, TextField } from '@mui/material';
-import { GoogleMap, LoadScript, Marker, Polyline } from '@react-google-maps/api';
+import { GoogleMap, LoadScript, Marker, OverlayView, Polyline } from '@react-google-maps/api';
 import React from 'react';
 import TwoWheelerIcon from '@mui/icons-material/TwoWheeler';
 import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
@@ -22,6 +22,7 @@ export default function HomePage() {
     markers,
     isCar,
     isShowingMarker,
+    paths,
 
     onLoad,
     onChooseCar,
@@ -151,9 +152,55 @@ export default function HomePage() {
               }}
             >
               {markers.map((marker) => (
-                isShowingMarker ? <Marker key={marker.id} position={marker.position} /> : null             
+                isShowingMarker ? <Marker key={Math.random()} position={marker.position} /> : null             
               ))}
-              {isShowingMarker ? <Polyline path={[markers[0].position, markers[1].position]} options={{ strokeColor: '#FF0000', strokeWeight: 2 }} /> : null}
+              {paths.map((path) => (
+                <React.Fragment key={path.id}>
+                  <Polyline 
+                    key={`polyline_${path.id}`} 
+                    path={path.path} 
+                    options={{ 
+                      strokeColor: '#FF0000', 
+                      strokeWeight: 1, 
+                      icons: [
+                        {
+                          icon: {
+                            path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
+                            scale: 3,
+                            strokeColor: '#FF0000',
+                            strokeWeight: 1,
+                            fillColor: '#FF0000',
+                          },
+                          offset: '50%',
+                        },
+                      ],
+                    }} 
+                  />
+                  <OverlayView
+                    position={path.midPoint}
+                    mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
+                  >
+                    <Box
+                      sx={{fontWeight: '700'}}
+                    >{path.flow}</Box>
+                  </OverlayView>
+                  {path.path.map((point,index) => (
+                    <Marker 
+                      key={index}
+                      position={point}
+                      icon={{
+                        path: google.maps.SymbolPath.CIRCLE,
+                        scale: 4,
+                        fillColor: 'black',
+                        fillOpacity: 1,
+                        strokeWeight: 0,
+                      }}
+                    />
+                  ))}
+                </React.Fragment>
+                
+              ))}
+
             </GoogleMap>
           </LoadScript>
         </Box>
